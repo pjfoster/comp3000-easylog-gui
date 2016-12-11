@@ -36,6 +36,9 @@ public class LogAppController {
 	
 	public void createIndex() {
 		System.out.println("CTRL: Creating Index...");
+		indexTool.createIndex(indexPath, indexData, false);
+		
+		// TODO: AUTOMATICALLY UPDATE LOG DISPLAY
 	}
 	
 	public ObservableList<Document> allLogs() {

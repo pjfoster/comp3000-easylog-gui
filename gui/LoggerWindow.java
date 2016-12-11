@@ -31,6 +31,7 @@ public class LoggerWindow extends Application {
 		
 		controller = new LogAppController(this);
 		
+		controller.createIndex();
 		ObservableList<Document> allLogs = controller.allLogs();
 		logs = new LogDisplay(this, allLogs);
 		footer = new Footer(this, allLogs.size());

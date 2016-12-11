@@ -32,7 +32,7 @@ public class SearchBar extends VBox {
 		this.queryCreator = new QueryCreator();
 		
 		final Label filterLabel = new Label("FILTER OPTIONS");
-		filterLabel.setFont(new Font("Arial", 12));
+		filterLabel.setFont(new Font("Arial", 16));
 		
 		searchTerms = new ArrayList<SearchTermDisplay>();
         filter = new SearchTermDisplay(this);
@@ -40,7 +40,7 @@ public class SearchBar extends VBox {
         searchTerms.add(filter);
         
         final Label highlightLabel = new Label("HIGHLIGHT OPTIONS");
-        highlightLabel.setFont(new Font("Arial", 12));
+        highlightLabel.setFont(new Font("Arial", 16));
 		
         highlight = new TextField();
         highlight.setMinWidth(185);
