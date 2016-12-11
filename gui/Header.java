@@ -24,7 +24,7 @@ public class Header extends FlowPane {
 		label.setFont(new Font("Arial", 20));
 		
 		final Label blankLabel = new Label("");
-		blankLabel.setMinWidth(400);
+		blankLabel.setMinWidth(500);
 		
 		Button createIndex = new Button("CREATE / UPDATE INDEX");
 		createIndex.setFont(new Font("Arial", 20));

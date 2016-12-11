@@ -44,7 +44,7 @@ public class SearchFiles {
 
 	public SearchFiles() {
 	}
-
+	
 	/** Simple command-line based search demo. */
 	public List<Document> search(String index, String field, String queries, int repeat,
 			boolean raw, String queryString, int hitsPerPage) throws Exception {
@@ -103,6 +103,37 @@ public class SearchFiles {
 				break;
 			}
 		}
+		reader.close();
+		return searchResults;
+	}
+	
+	/** Simple command-line based search demo. */
+	public List<Document> searchQuery(Query query, String index, String field, int repeat,
+			boolean raw, int hitsPerPage) throws Exception {
+
+		List<Document> searchResults = new ArrayList<Document>();
+		
+		IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths
+				.get(index)));
+		IndexSearcher searcher = new IndexSearcher(reader);
+
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in,
+					StandardCharsets.UTF_8));
+
+		System.out.println("Searching for: " + query.toString(field));
+
+		if (repeat > 0) { // repeat & time as benchmark
+			Date start = new Date();
+			for (int i = 0; i < repeat; i++) {
+				searcher.search(query, 100);
+			}
+			Date end = new Date();
+			System.out.println("Time: " + (end.getTime() - start.getTime())
+					+ "ms");
+		}
+
+		searchResults = doPagingSearch(in, searcher, query, hitsPerPage, raw, false);
+
 		reader.close();
 		return searchResults;
 	}
@@ -168,12 +199,6 @@ public class SearchFiles {
 				// LOOK AT ME LOOK AT ME
 				searchResults.add(doc);
 				// LOOK AT ME LOOK AT ME
-				
-				/*String filename = doc.get("filename");
-				String log = doc.get("contents");
-				if (filename != null && log != null) {
-					System.out.println(filename + ": " + log);
-				}*/
 
 				String path = doc.get("path");
 				if (path != null) {

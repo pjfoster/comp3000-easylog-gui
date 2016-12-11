@@ -1,6 +1,7 @@
 package gui;
 
 import org.apache.lucene.document.Document;
+import org.apache.lucene.search.Query;
 
 import controller.LogAppController;
 import javafx.application.Application;
@@ -27,12 +28,12 @@ public class LoggerWindow extends Application {
 	public LoggerWindow() {
 		searchbar = new SearchBar(this);
 		header = new Header(this);
-		footer = new Footer(this);
 		
 		controller = new LogAppController(this);
 		
-		//logs = new LogDisplay(this, controller.filterSearch());
-		logs = new LogDisplay(this, null);
+		ObservableList<Document> allLogs = controller.allLogs();
+		logs = new LogDisplay(this, allLogs);
+		footer = new Footer(this, allLogs.size());
 	}
 
 	@Override
@@ -44,10 +45,10 @@ public class LoggerWindow extends Application {
 		rc.setFillHeight(true);
 		rc.setVgrow(Priority.ALWAYS);
 		
-		Scene scene = new Scene(grid, 900, 600);
+		Scene scene = new Scene(grid, 1020, 600);
 		
 		stage.setTitle("OSX Log Viewer");
-		stage.setWidth(900);
+		stage.setWidth(1020);
 		stage.setHeight(600);
 		
 		grid.setTop(header);
@@ -66,9 +67,9 @@ public class LoggerWindow extends Application {
 		controller.createIndex();
 	}
 	
-	public void filterSearch() {
+	public void filterSearch(Query query) {
 		System.out.println("VIEW: Filtering...");
-		ObservableList<Document> results = controller.filterSearch();
+		ObservableList<Document> results = controller.filterSearch(query);
 		logs.setDocs(results);
 		footer.setNumLogs(results.size());
 	}

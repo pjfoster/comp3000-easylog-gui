@@ -1,13 +1,17 @@
 package gui;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 
 public class SearchTermDisplay extends FlowPane {
 
+	private ComboBox<String> searchType;
 	private TextField search;
 	private Button addButton;
 	private Button andOrButton;
@@ -15,6 +19,17 @@ public class SearchTermDisplay extends FlowPane {
 	
 	public SearchTermDisplay(final SearchBar parent) {
 		this.parent = parent;
+		
+		ObservableList<String> searchOptions = FXCollections.observableArrayList(
+				"String",
+				"Regex",
+				"Substring",
+				"Fuzzy");
+		searchType = new ComboBox<String>(searchOptions);
+		searchType.setValue("String");
+		searchType.setMinWidth(100);
+		searchType.setMaxWidth(100);
+		
 		search = new TextField();
 		search.setMinWidth(150);
 		search.setMaxWidth(150);
@@ -36,7 +51,7 @@ public class SearchTermDisplay extends FlowPane {
         		// Disable this button
         		b.setVisible(false);
         		SearchTermDisplay p = (SearchTermDisplay)b.getParent();
-        		p.getChildren().remove(1);
+        		p.getChildren().remove(2);
         		
         		// add the and/or button
         		andOrButton = new Button("AND");
@@ -57,7 +72,7 @@ public class SearchTermDisplay extends FlowPane {
         });
 		
 		this.setHgap(5);
-		this.getChildren().addAll(search, addButton);
+		this.getChildren().addAll(searchType, search, addButton);
 	}
 	
 	public String getText() {
@@ -70,5 +85,9 @@ public class SearchTermDisplay extends FlowPane {
 		} else {
 			return andOrButton.getText();
 		}
+	}
+	
+	public String getSearchType() {
+		return searchType.getValue();
 	}
 }

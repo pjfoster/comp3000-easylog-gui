@@ -2,6 +2,8 @@ package gui;
 
 import java.util.ArrayList;
 
+import org.apache.lucene.search.Query;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -10,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import lucene.QueryCreator;
 
 public class SearchBar extends VBox {
 
@@ -21,9 +24,12 @@ public class SearchBar extends VBox {
 	
 	private TextField highlight;
 	private Button highlightButton;
+	
+	private QueryCreator queryCreator;
 
 	public SearchBar(final LoggerWindow parent) {
 		this.parent = parent;
+		this.queryCreator = new QueryCreator();
 		
 		final Label filterLabel = new Label("FILTER OPTIONS");
 		filterLabel.setFont(new Font("Arial", 12));
@@ -47,10 +53,12 @@ public class SearchBar extends VBox {
         	public void handle(ActionEvent e) {
         		Button b = (Button)e.getSource();
         		SearchBar p = (SearchBar)b.getParent();
-        		for (SearchTermDisplay s: searchTerms) {
-        			System.out.println(s.getText() + "; " + s.getButtonText());
-        		}
-        		p.parent.filterSearch();
+        		
+        		Query query = queryCreator.createQuery(searchTerms);
+        		
+        		// TODO: error checking
+        		System.out.println("QUERYSTRING: " + query.toString());
+        		p.parent.filterSearch(query);
         	}
         });
         
@@ -68,8 +76,8 @@ public class SearchBar extends VBox {
         
         this.setStyle("-fx-border-color: black");
         
-        this.setMinWidth(225);
-        this.setMaxWidth(225);
+        this.setMinWidth(345);
+        this.setMaxWidth(345);
         this.setSpacing(15);
         this.setPadding(new Insets(40, 10, 10, 10));
         this.getChildren().addAll(filterLabel, filter, filterButton, highlightLabel, highlight, highlightButton);

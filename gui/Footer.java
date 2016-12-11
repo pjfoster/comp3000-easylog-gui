@@ -16,8 +16,9 @@ public class Footer extends VBox {
 	private final LoggerWindow parent;
 	private Label logLabel;
 	
-	public Footer(final LoggerWindow parent) {
+	public Footer(final LoggerWindow parent, int numLogs) {
 		this.parent = parent;
+		this.numLogs = numLogs;
 		logLabel = new Label(numLogs + " logs displayed");
 		logLabel.setFont(new Font("Arial", 12));
 		

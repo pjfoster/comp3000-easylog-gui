@@ -3,6 +3,8 @@ package controller;
 import java.util.List;
 
 import org.apache.lucene.document.Document;
+import org.apache.lucene.search.MatchAllDocsQuery;
+import org.apache.lucene.search.Query;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,31 +38,42 @@ public class LogAppController {
 		System.out.println("CTRL: Creating Index...");
 	}
 	
-	public ObservableList<Document> filterSearch() {
+	public ObservableList<Document> allLogs() {
+		// DEFAULT SEARCH VALUES
+		String index = indexPath;
+	    String field = "contents";
+	    int repeat = 0;
+	    boolean raw = false;
+	    int hitsPerPage = 100;
+	    
+	    Query query = new MatchAllDocsQuery();
+	    
+	    try {
+	    	// search lucene index
+	    	List<Document> searchResults = searchTool.searchQuery(query, index, field, repeat, raw, hitsPerPage);
+	    	docs = FXCollections.observableArrayList(searchResults);
+	    	return docs;
+	    }
+	    catch (Exception e) {
+	    	System.out.println(e.getMessage());
+	    	return null;
+	    }
+	}
+	
+	public ObservableList<Document> filterSearch(Query userQuery) {
 		System.out.println("CTRL: Filtering...");
 		
 		// DEFAULT SEARCH VALUES
 		String index = indexPath;
 	    String field = "contents";
-	    String queries = null;
 	    int repeat = 0;
 	    boolean raw = false;
-	    String queryString = "kernel";
-	    int hitsPerPage = 50;
+	    int hitsPerPage = 100;
 	    
 	    try {
 	    	// search lucene index
-	    	List<Document> searchResults = searchTool.search(index, field, queries, repeat, raw, queryString, hitsPerPage);
-	    	
-	    	System.out.println("PRINTING SEARCH RESULTS...");
+	    	List<Document> searchResults = searchTool.searchQuery(userQuery, index, field, repeat, raw, hitsPerPage);
 	    	docs = FXCollections.observableArrayList(searchResults);
-	    	for (Document d: searchResults) {
-	    		String filename = d.get("filename");
-				String log = d.get("contents");
-				if (filename != null && log != null) {
-					System.out.println(filename + ": " + log);
-				}
-	    	}
 	    	return docs;
 	    }
 	    catch (Exception e) {
