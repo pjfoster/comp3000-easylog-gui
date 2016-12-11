@@ -31,7 +31,8 @@ public class LoggerWindow extends Application {
 		
 		controller = new LogAppController(this);
 		
-		logs = new LogDisplay(this, controller.filterSearch());
+		//logs = new LogDisplay(this, controller.filterSearch());
+		logs = new LogDisplay(this, null);
 	}
 
 	@Override
@@ -43,10 +44,10 @@ public class LoggerWindow extends Application {
 		rc.setFillHeight(true);
 		rc.setVgrow(Priority.ALWAYS);
 		
-		Scene scene = new Scene(grid, 800, 600);
+		Scene scene = new Scene(grid, 900, 600);
 		
 		stage.setTitle("OSX Log Viewer");
-		stage.setWidth(800);
+		stage.setWidth(900);
 		stage.setHeight(600);
 		
 		grid.setTop(header);
@@ -69,6 +70,7 @@ public class LoggerWindow extends Application {
 		System.out.println("VIEW: Filtering...");
 		ObservableList<Document> results = controller.filterSearch();
 		logs.setDocs(results);
+		footer.setNumLogs(results.size());
 	}
 	
 	public void highlight() {

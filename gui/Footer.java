@@ -14,11 +14,12 @@ public class Footer extends VBox {
 
 	private int numLogs = 0;
 	private final LoggerWindow parent;
+	private Label logLabel;
 	
 	public Footer(final LoggerWindow parent) {
 		this.parent = parent;
-		final Label label = new Label(numLogs + " logs displayed");
-		label.setFont(new Font("Arial", 12));
+		logLabel = new Label(numLogs + " logs displayed");
+		logLabel.setFont(new Font("Arial", 12));
 		
 		this.setAlignment(Pos.CENTER_LEFT);
 		
@@ -26,7 +27,12 @@ public class Footer extends VBox {
 		this.setMinHeight(50);
 		this.setPadding(new Insets(5, 5, 5, 40));
 		this.setStyle("-fx-background-color: linear-gradient(from 25% 25% to 100% 100%, #bacbd9, #0258A3)");
-		this.getChildren().addAll(label);
+		this.getChildren().addAll(logLabel);
+	}
+	
+	public void setNumLogs(int n) {
+		numLogs = n;
+		logLabel.setText(numLogs + " logs displayed");
 	}
 	
 }

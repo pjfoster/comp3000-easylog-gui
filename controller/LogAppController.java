@@ -46,7 +46,7 @@ public class LogAppController {
 	    int repeat = 0;
 	    boolean raw = false;
 	    String queryString = "kernel";
-	    int hitsPerPage = 10;
+	    int hitsPerPage = 50;
 	    
 	    try {
 	    	// search lucene index

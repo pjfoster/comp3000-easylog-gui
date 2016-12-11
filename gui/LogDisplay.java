@@ -21,7 +21,7 @@ public class LogDisplay extends TableView<Document> {
 		
 		this.parent = parent;
 		this.setEditable(false);
-		this.setMinSize(600, 400);
+		this.setMinSize(675, 400);
 		this.setStyle("-fx-border-color: black");
 		
 		TableColumn<Document, String> c1 = new TableColumn<Document, String>("Logs");
@@ -30,6 +30,12 @@ public class LogDisplay extends TableView<Document> {
 		c1.setCellValueFactory(new DocumentValueFactory("contents"));
 		c2.setCellValueFactory(new DocumentValueFactory("filename"));
 		
+		c2.setMinWidth(120);
+		c2.setMaxWidth(120);
+		
+		c1.setMinWidth(555);
+		c1.setMaxWidth(555);
+		
 		this.getColumns().addAll(c2, c1);	
 		
 		this.setItems(docs);
@@ -37,6 +43,7 @@ public class LogDisplay extends TableView<Document> {
 	
 	public void setDocs(ObservableList<Document> docs) {
 		this.docs = docs;
+		this.setItems(docs);
 	}
 	
 }
