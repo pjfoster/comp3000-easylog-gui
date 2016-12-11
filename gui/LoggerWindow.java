@@ -1,7 +1,10 @@
 package gui;
 
+import org.apache.lucene.document.Document;
+
 import controller.LogAppController;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Priority;
@@ -22,12 +25,13 @@ public class LoggerWindow extends Application {
 	}
 	
 	public LoggerWindow() {
-		logs = new LogDisplay(this, null);
 		searchbar = new SearchBar(this);
 		header = new Header(this);
 		footer = new Footer(this);
 		
 		controller = new LogAppController(this);
+		
+		logs = new LogDisplay(this, controller.filterSearch());
 	}
 
 	@Override
@@ -63,7 +67,8 @@ public class LoggerWindow extends Application {
 	
 	public void filterSearch() {
 		System.out.println("VIEW: Filtering...");
-		controller.filterSearch();
+		ObservableList<Document> results = controller.filterSearch();
+		logs.setDocs(results);
 	}
 	
 	public void highlight() {

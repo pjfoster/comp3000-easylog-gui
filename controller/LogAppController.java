@@ -36,7 +36,7 @@ public class LogAppController {
 		System.out.println("CTRL: Creating Index...");
 	}
 	
-	public void filterSearch() {
+	public ObservableList<Document> filterSearch() {
 		System.out.println("CTRL: Filtering...");
 		
 		// DEFAULT SEARCH VALUES
@@ -53,6 +53,7 @@ public class LogAppController {
 	    	List<Document> searchResults = searchTool.search(index, field, queries, repeat, raw, queryString, hitsPerPage);
 	    	
 	    	System.out.println("PRINTING SEARCH RESULTS...");
+	    	docs = FXCollections.observableArrayList(searchResults);
 	    	for (Document d: searchResults) {
 	    		String filename = d.get("filename");
 				String log = d.get("contents");
@@ -60,9 +61,11 @@ public class LogAppController {
 					System.out.println(filename + ": " + log);
 				}
 	    	}
+	    	return docs;
 	    }
 	    catch (Exception e) {
 	    	System.out.println(e.getMessage());
+	    	return null;
 	    }
 	}
 	
