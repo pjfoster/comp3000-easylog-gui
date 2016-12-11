@@ -46,9 +46,11 @@ public class SearchBar extends VBox {
         	@Override
         	public void handle(ActionEvent e) {
         		Button b = (Button)e.getSource();
+        		SearchBar p = (SearchBar)b.getParent();
         		for (SearchTermDisplay s: searchTerms) {
         			System.out.println(s.getText() + "; " + s.getButtonText());
         		}
+        		p.parent.filterSearch();
         	}
         });
         
@@ -59,6 +61,8 @@ public class SearchBar extends VBox {
         		Button b = (Button)e.getSource();
         		String text = highlight.getText();
         		System.out.println(text);
+        		SearchBar p = (SearchBar)b.getParent();
+            	p.parent.highlight();
         	}
         });
         

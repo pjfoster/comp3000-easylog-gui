@@ -12,11 +12,14 @@ import javafx.scene.text.Font;
 
 public class Header extends FlowPane {
 
+	private final LoggerWindow parent;
+	
 	private final String onHover = "-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: #000000";
 	private final String offHover = "-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: #ffffff";
 	private final String optionsButtonStyle = "-fx-background-color: #0258A3; -fx-text-fill: white; -fx-border-color: black";
 	
-	public Header() {
+	public Header(final LoggerWindow parent) {
+		this.parent = parent;
 		final Label label = new Label("HEADER");
 		label.setFont(new Font("Arial", 20));
 		
@@ -35,6 +38,8 @@ public class Header extends FlowPane {
         	public void handle(ActionEvent e) {
         		Button b = (Button)e.getSource();
         		System.out.println("CREATE INDEX BUTTON CLICK");
+        		Header p = (Header)b.getParent();
+        		p.parent.createIndex();
         	}
         });
 		

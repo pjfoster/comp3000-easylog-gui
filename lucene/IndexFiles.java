@@ -53,10 +53,10 @@ public class IndexFiles {
   
   public static final int MAX_PER_FILE = 100;
 	
-  private IndexFiles() {}
+  public IndexFiles() { }
 
   /** Index all text files under a directory. */
-  public static void main(String[] args) {
+  public void createIndex(String[] args) {
 	System.out.println(args.length);
 	System.out.println(args[0] + ", " + args[1] + ", " + args[2] + "\n");
     String usage = "java org.apache.lucene.demo.IndexFiles"

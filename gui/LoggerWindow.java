@@ -1,5 +1,6 @@
 package gui;
 
+import controller.LogAppController;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -9,6 +10,8 @@ import javafx.stage.Stage;
 
 public class LoggerWindow extends Application {
 
+	private LogAppController controller;
+	
 	private LogDisplay logs;
 	private SearchBar searchbar;
 	private Header header;
@@ -21,8 +24,10 @@ public class LoggerWindow extends Application {
 	public LoggerWindow() {
 		logs = new LogDisplay(this, null);
 		searchbar = new SearchBar(this);
-		header = new Header();
+		header = new Header(this);
 		footer = new Footer(this);
+		
+		controller = new LogAppController(this);
 	}
 
 	@Override
@@ -49,5 +54,20 @@ public class LoggerWindow extends Application {
         stage.setResizable(false);
         stage.show();
 	
+	}
+	
+	public void createIndex() {
+		System.out.println("VIEW: Creating Index...");
+		controller.createIndex();
+	}
+	
+	public void filterSearch() {
+		System.out.println("VIEW: Filtering...");
+		controller.filterSearch();
+	}
+	
+	public void highlight() {
+		System.out.println("VIEW: Highlighting logs...");
+		controller.highlight();
 	}
 }
