@@ -48,10 +48,10 @@ public class LoggerWindow extends Application {
 		rc.setFillHeight(true);
 		rc.setVgrow(Priority.ALWAYS);
 		
-		Scene scene = new Scene(grid, 1020, 600);
+		Scene scene = new Scene(grid, 1120, 600);
 		
 		stage.setTitle("OSX Log Viewer");
-		stage.setWidth(1020);
+		stage.setWidth(1120);
 		stage.setHeight(600);
 		
 		grid.setTop(header);
@@ -75,8 +75,9 @@ public class LoggerWindow extends Application {
 		footer.setNumLogs(results.size());
 	}
 	
-	public void highlight() {
-		controller.highlight();
+	public void highlight(String subString) {
+		//controller.highlight();
+		logs.highlightDocs(subString);
 	}
 	
 	public void showIndexConfig() {

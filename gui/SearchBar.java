@@ -68,9 +68,9 @@ public class SearchBar extends VBox {
         	public void handle(ActionEvent e) {
         		Button b = (Button)e.getSource();
         		String text = highlight.getText();
-        		System.out.println(text);
+        		//System.out.println(text);
         		SearchBar p = (SearchBar)b.getParent();
-            	p.parent.highlight();
+            	p.parent.highlight(text);
         	}
         });
         

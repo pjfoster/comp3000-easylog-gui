@@ -23,4 +23,5 @@ public class DocumentValueFactory<Document, String> implements Callback<CellData
 		ObservableValue<String> wrapper = (ObservableValue<String>) new ReadOnlyStringWrapper(d.get(feature));
 		return wrapper;
 	}
+	
 }
