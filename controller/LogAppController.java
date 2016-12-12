@@ -18,9 +18,11 @@ public class LogAppController {
 	private IndexFiles indexTool;
 	private SearchFiles searchTool;
 	
-	// indexing information
-	private String indexPath = "/Users/PJF/Desktop/test_index/";
-	private String indexData = "/Users/PJF/Desktop/test_data/";
+	// indexing and search configuration information
+	public String indexPath = "/Users/PJF/Desktop/test_index/";
+	public String indexData = "/Users/PJF/Desktop/test_data/";
+	public boolean update = false;
+	public int maxHitsPerPage = 150;
 	
 	private ObservableList<Document> docs;
 	
@@ -36,7 +38,7 @@ public class LogAppController {
 	
 	public void createIndex() {
 		System.out.println("CTRL: Creating Index...");
-		indexTool.createIndex(indexPath, indexData, false);
+		indexTool.createIndex(indexPath, indexData, update);
 		
 		// TODO: AUTOMATICALLY UPDATE LOG DISPLAY
 	}
@@ -47,7 +49,7 @@ public class LogAppController {
 	    String field = "contents";
 	    int repeat = 0;
 	    boolean raw = false;
-	    int hitsPerPage = 100;
+	    int hitsPerPage = maxHitsPerPage;
 	    
 	    Query query = new MatchAllDocsQuery();
 	    
@@ -71,7 +73,7 @@ public class LogAppController {
 	    String field = "contents";
 	    int repeat = 0;
 	    boolean raw = false;
-	    int hitsPerPage = 100;
+	    int hitsPerPage = maxHitsPerPage;
 	    
 	    try {
 	    	// search lucene index

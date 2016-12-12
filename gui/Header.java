@@ -20,6 +20,7 @@ public class Header extends FlowPane {
 	
 	public Header(final LoggerWindow parent) {
 		this.parent = parent;
+		
 		final Label label = new Label("HEADER");
 		label.setFont(new Font("Arial", 20));
 		
@@ -62,8 +63,7 @@ public class Header extends FlowPane {
 		optionsButton.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
         	public void handle(ActionEvent e) {
-        		Button b = (Button)e.getSource();
-        		System.out.println("OPTIONS BUTTON CLICK");
+        		parent.showIndexConfig();
         	}
         });
 		

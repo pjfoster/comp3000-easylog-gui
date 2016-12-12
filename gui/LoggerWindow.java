@@ -20,6 +20,7 @@ public class LoggerWindow extends Application {
 	private SearchBar searchbar;
 	private Header header;
 	private Footer footer;
+	private IndexConfig indexConfig;
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -28,6 +29,7 @@ public class LoggerWindow extends Application {
 	public LoggerWindow() {
 		searchbar = new SearchBar(this);
 		header = new Header(this);
+		indexConfig = new IndexConfig(this);
 		
 		controller = new LogAppController(this);
 		
@@ -64,19 +66,32 @@ public class LoggerWindow extends Application {
 	}
 	
 	public void createIndex() {
-		System.out.println("VIEW: Creating Index...");
 		controller.createIndex();
 	}
 	
 	public void filterSearch(Query query) {
-		System.out.println("VIEW: Filtering...");
 		ObservableList<Document> results = controller.filterSearch(query);
 		logs.setDocs(results);
 		footer.setNumLogs(results.size());
 	}
 	
 	public void highlight() {
-		System.out.println("VIEW: Highlighting logs...");
 		controller.highlight();
+	}
+	
+	public void showIndexConfig() {
+		indexConfig.show(controller.indexPath, controller.indexData,
+						 controller.update, controller.maxHitsPerPage);
+	}
+	
+	public void updateConfigInfo(String indexPath, String docsPath, boolean update, String maxHitsPerPage) {
+		controller.indexPath = indexPath;
+		controller.indexData = docsPath;
+		controller.update = update;
+		try {
+			controller.maxHitsPerPage = Integer.parseInt(maxHitsPerPage);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 }
