@@ -19,7 +19,6 @@ public class LogDisplay extends TableView<Document> {
 	private final LoggerWindow parent;
 	private String highlightText = null;
 	
-	// WHAT THE HELL IS AN OBSERVABLE LIST?
 	@SuppressWarnings("unchecked")
 	public LogDisplay(final LoggerWindow parent, ObservableList<Document> docs) {
 		
@@ -55,17 +54,21 @@ public class LogDisplay extends TableView<Document> {
 	                    }
 	                }
 	            };
-	            /*Text text = new Text();
-	            newCell.setGraphic(text);
-	            newCell.setPrefHeight(Control.USE_COMPUTED_SIZE);
-	            text.wrappingWidthProperty().bind(newCell.widthProperty());
-	            text.textProperty().bind(newCell.itemProperty());*/
+
 	            newCell.setOnMouseClicked(new EventHandler() {
 					@Override
 					public void handle(Event e) {
 						TableCell cell = (TableCell)e.getSource();
-						System.out.println("CLICK EVENT! " + cell);
 						Text text = new Text();
+						
+						// DEAL WITH HIGHLIGHTING
+			            if (getHighlightText() != null && cell.getText().contains(getHighlightText())) {
+			            	System.out.println("The text is supposed to be red...");
+			            	text.setFill(Color.RED);
+                        } else {
+                        	text.setFill(Color.BLACK);
+                        }
+			            
 						cell.setGraphic(text);
 						cell.setPrefHeight(Control.USE_COMPUTED_SIZE);
 			            text.wrappingWidthProperty().bind(cell.widthProperty());
@@ -79,18 +82,9 @@ public class LogDisplay extends TableView<Document> {
 		c2.setMinWidth(120);
 		c2.setMaxWidth(120);
 		
-		//c1.setMinWidth(2000);
-		//c1.setMaxWidth(2000);
 		c1.setPrefWidth(655);
 		
 		this.getColumns().addAll(c2, c1);	
-		
-		/*this.setColumnResizePolicy(new Callback<TableView.ResizeFeatures, Boolean>() {
-			  @Override
-			  public Boolean call(ResizeFeatures p) {
-			     return true;
-			  }
-			});*/
 		this.setItems(docs);
 	}
 	
@@ -106,8 +100,7 @@ public class LogDisplay extends TableView<Document> {
 		} else {
 			highlightText = subString;
 		}
-		
-		//this.setItems(docs);
+
 		this.refresh();
 	}
 	
