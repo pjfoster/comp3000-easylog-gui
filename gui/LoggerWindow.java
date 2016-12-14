@@ -67,6 +67,8 @@ public class LoggerWindow extends Application {
 	
 	public void createIndex() {
 		controller.createIndex();
+		ObservableList<Document> allLogs = controller.allLogs();
+		logs.setDocs(allLogs);
 	}
 	
 	public void filterSearch(Query query) {
