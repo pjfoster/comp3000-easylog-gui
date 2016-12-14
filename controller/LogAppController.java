@@ -21,6 +21,7 @@ public class LogAppController {
 	// indexing and search configuration information
 	public String indexPath = "/Users/PJF/Desktop/test_index/";
 	public String indexData = "/Users/PJF/Desktop/test_data/";
+	public String fileExpression = ".*.log";
 	public boolean update = false;
 	public int maxHitsPerPage = 150;
 	
@@ -37,13 +38,11 @@ public class LogAppController {
 	}
 	
 	public void createIndex() {
-		System.out.println("CTRL: Creating Index...");
-		indexTool.createIndex(indexPath, indexData, update);
-		
-		// TODO: AUTOMATICALLY UPDATE LOG DISPLAY
+		indexTool.createIndex(indexPath, indexData, update, fileExpression);
 	}
 	
 	public ObservableList<Document> allLogs() {
+		
 		// DEFAULT SEARCH VALUES
 		String index = indexPath;
 	    String field = "contents";
@@ -66,8 +65,7 @@ public class LogAppController {
 	}
 	
 	public ObservableList<Document> filterSearch(Query userQuery) {
-		System.out.println("CTRL: Filtering...");
-		
+
 		// DEFAULT SEARCH VALUES
 		String index = indexPath;
 	    String field = "contents";
@@ -86,10 +84,5 @@ public class LogAppController {
 	    	return null;
 	    }
 	}
-	
-	public void highlight() {
-		System.out.println("CTRL: Highlighting logs...");
-	}
-	
 	
 }

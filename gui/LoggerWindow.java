@@ -76,19 +76,19 @@ public class LoggerWindow extends Application {
 	}
 	
 	public void highlight(String subString) {
-		//controller.highlight();
 		logs.highlightDocs(subString);
 	}
 	
 	public void showIndexConfig() {
-		indexConfig.show(controller.indexPath, controller.indexData,
+		indexConfig.show(controller.indexPath, controller.indexData, controller.fileExpression,
 						 controller.update, controller.maxHitsPerPage);
 	}
 	
-	public void updateConfigInfo(String indexPath, String docsPath, boolean update, String maxHitsPerPage) {
+	public void updateConfigInfo(String indexPath, String docsPath, boolean update, String fileExpression, String maxHitsPerPage) {
 		controller.indexPath = indexPath;
 		controller.indexData = docsPath;
 		controller.update = update;
+		controller.fileExpression = fileExpression;
 		try {
 			controller.maxHitsPerPage = Integer.parseInt(maxHitsPerPage);
 		} catch (Exception e) {

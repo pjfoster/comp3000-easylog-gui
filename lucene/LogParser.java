@@ -37,7 +37,6 @@ public class LogParser {
 	    			  
 	    			  // create a document with the previously aggregated log entry
 	    			  if (currLog != null) {
-	    				  System.out.println("NEWLOG: " + currLog);
 		    			  Document newLog = new Document();
 		    			  newLog.add(pathField);
 		    			  newLog.add(new StringField("filename", filename, Field.Store.YES));
@@ -55,11 +54,9 @@ public class LogParser {
 	    	  }
 	    	  // if line == null, we have reached the end of the log file
 	    	  else break;
-	    	  
-	    	  if (counter >= MAX_PER_FILE) break;
-	    	  
+	    	  if (counter >= MAX_PER_FILE) break;  
 	      }
-	      System.out.println("COUNT FOR " + file.toString() + ": " + counter);
+	      //System.out.println("COUNT FOR " + file.toString() + ": " + counter);
 		
 		return null;
 	}

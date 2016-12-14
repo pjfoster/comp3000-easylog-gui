@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -26,6 +27,7 @@ public class IndexConfig extends Application implements ChangeListener {
 	
 	private TextField indexPath;
 	private TextField docsPath;
+	private TextField filenameField;
 	private CheckBox createBox;
 	private TextField maxHits;
 	
@@ -62,15 +64,26 @@ public class IndexConfig extends Application implements ChangeListener {
 		docsPath.setMaxWidth(350);
 		docsPath.textProperty().addListener(this);
 		
+		final Label filenameLabel = new Label("Expression matching files to index:");
+		filenameLabel.setFont(new Font("Arial", 12));
+		
+		filenameField = new TextField();
+		filenameField.setMaxWidth(350);
+		filenameField.textProperty().addListener(this);
+		
 		createBox = new CheckBox("Create Index From Scratch?");
 		createBox.selectedProperty().addListener(this);
 		
-		final Label maxHitsLabel = new Label("Path of documents to be indexed:");
+		final Label maxHitsLabel = new Label("Maximum Number of Files to Return:");
 		maxHitsLabel.setFont(new Font("Arial", 12));
 		
 		maxHits = new TextField();
 		maxHits.setMaxWidth(350);
 		maxHits.textProperty().addListener(this);
+		
+		// FLOW PANE FOR BUTTONS
+		
+		FlowPane buttonPane = new FlowPane();
 		
 		applyButton = new Button("APPLY");
 		applyButton.setDisable(true);
@@ -85,6 +98,7 @@ public class IndexConfig extends Application implements ChangeListener {
         				indexPath.getText(),
         				docsPath.getText(),
         				!createBox.isSelected(),
+        				filenameField.getText(),
         				maxHits.getText());
         	}
         });
@@ -96,19 +110,22 @@ public class IndexConfig extends Application implements ChangeListener {
         	}
         });
 		
+		buttonPane.setHgap(10);
+		buttonPane.getChildren().addAll(applyButton, exitButton);
+		
 		layout.setPadding(new Insets(20, 20, 20, 20));
 		layout.getChildren().addAll(headerLabel, indexPathLabel, indexPath,
-									docsPathLabel, docsPath, createBox,
-									maxHitsLabel, maxHits, applyButton,
-									exitButton);
+									docsPathLabel, docsPath, filenameLabel, filenameField, createBox,
+									maxHitsLabel, maxHits, buttonPane);
 		
 		scene = new Scene(layout, 550, 400);
 		stage.setScene(scene);
 	}
 	
-	public void show(String indexPathVal, String docsPathVal, boolean update, int maxHitsVal) {
+	public void show(String indexPathVal, String docsPathVal, String fileExpression, boolean update, int maxHitsVal) {
 		indexPath.setText(indexPathVal);
 		docsPath.setText(docsPathVal);
+		filenameField.setText(fileExpression);
 		createBox.setSelected(!update);
 		maxHits.setText("" + maxHitsVal);
 		applyButton.setDisable(false);

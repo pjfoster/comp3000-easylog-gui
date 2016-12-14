@@ -4,12 +4,16 @@ import java.util.ArrayList;
 
 import org.apache.lucene.search.Query;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import lucene.QueryCreator;
@@ -20,6 +24,7 @@ public class SearchBar extends VBox {
 	
 	private ArrayList<SearchTermDisplay> searchTerms;
 	private SearchTermDisplay filter;
+	private ComboBox<String> field;
 	private Button filterButton;
 	
 	private TextField highlight;
@@ -39,6 +44,19 @@ public class SearchBar extends VBox {
         filterButton = new Button("Filter");
         searchTerms.add(filter);
         
+        // CREATE COMBO BOX TO SELECT FIELD
+        final Label fieldLabel = new Label("SEARCH FIELD:");
+        fieldLabel.setFont(new Font("Arial", 12));
+        
+        ObservableList<String> fieldOptions = FXCollections.observableArrayList(
+				"Logs",
+				"Log File Names");
+        field = new ComboBox<String>(fieldOptions);
+        field.setValue("Logs");
+        field.setMinWidth(185);
+        field.setMaxWidth(185);
+
+        // HIGHLIGHT SECTION
         final Label highlightLabel = new Label("HIGHLIGHT OPTIONS");
         highlightLabel.setFont(new Font("Arial", 16));
 		
@@ -54,7 +72,7 @@ public class SearchBar extends VBox {
         		Button b = (Button)e.getSource();
         		SearchBar p = (SearchBar)b.getParent();
         		
-        		Query query = queryCreator.createQuery(searchTerms);
+        		Query query = queryCreator.createQuery(searchTerms, p.getSearchField());
         		
         		// TODO: error checking
         		System.out.println("QUERYSTRING: " + query.toString());
@@ -78,9 +96,9 @@ public class SearchBar extends VBox {
         
         this.setMinWidth(345);
         this.setMaxWidth(345);
-        this.setSpacing(15);
+        this.setSpacing(10);
         this.setPadding(new Insets(40, 10, 10, 10));
-        this.getChildren().addAll(filterLabel, filter, filterButton, highlightLabel, highlight, highlightButton);
+        this.getChildren().addAll(filterLabel, filter, fieldLabel, field, filterButton, highlightLabel, highlight, highlightButton);
 	}
 	
 	public void addNewSearchTerm() {
@@ -91,5 +109,9 @@ public class SearchBar extends VBox {
 	}
 	
 	public int numSearchTerms() { return searchTerms.size(); }
+	
+	public String getSearchField() {
+		return field.getValue();
+	}
 	
 }

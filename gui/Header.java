@@ -21,11 +21,11 @@ public class Header extends FlowPane {
 	public Header(final LoggerWindow parent) {
 		this.parent = parent;
 		
-		final Label label = new Label("HEADER");
-		label.setFont(new Font("Arial", 20));
+		final Label label = new Label("EASYLOG: Log Navigator");
+		label.setFont(new Font("Copperplate", 30));
 		
 		final Label blankLabel = new Label("");
-		blankLabel.setMinWidth(500);
+		blankLabel.setMinWidth(300);
 		
 		Button createIndex = new Button("CREATE / UPDATE INDEX");
 		createIndex.setFont(new Font("Arial", 20));

@@ -26,6 +26,8 @@ import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -54,7 +56,7 @@ public class IndexFiles {
   }
 
   /** Index all text files under a directory. */
-  public void createIndex(String indexPath, String docsPath, boolean update) {
+  public void createIndex(String indexPath, String docsPath, boolean update, final String fileExpression) {
 
 	boolean create = (update == false);  
     System.out.println("Index: " + indexPath + "; Docs: " + docsPath + "; Update: " + create);
@@ -67,7 +69,7 @@ public class IndexFiles {
     
     Date start = new Date();
     try {
-      System.out.println("Indexing to directory '" + indexPath + "'...");
+      //System.out.println("Indexing to directory '" + indexPath + "'...");
 
       Directory dir = FSDirectory.open(Paths.get(indexPath));
       Analyzer analyzer = new StandardAnalyzer();
@@ -90,7 +92,7 @@ public class IndexFiles {
       // iwc.setRAMBufferSizeMB(256.0);
 
       IndexWriter writer = new IndexWriter(dir, iwc);
-      indexDocs(writer, docDir);
+      indexDocs(writer, docDir, fileExpression);
 
       // NOTE: if you want to maximize search performance,
       // you can optionally call forceMerge here.  This can be
@@ -126,13 +128,13 @@ public class IndexFiles {
    * @param path The file to index, or the directory to recurse into to find files to index
    * @throws IOException If there is a low-level I/O error
    */
-  public void indexDocs(final IndexWriter writer, Path path) throws IOException {
+  public void indexDocs(final IndexWriter writer, Path path, final String fileExpression) throws IOException {
     if (Files.isDirectory(path)) {
       Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
         @Override
         public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
           try {
-            indexDoc(writer, file, attrs.lastModifiedTime().toMillis());
+            indexDoc(writer, file, attrs.lastModifiedTime().toMillis(), fileExpression);
           } catch (IOException ignore) {
             // don't index files that can't be read.
           }
@@ -140,13 +142,13 @@ public class IndexFiles {
         }
       });
     } else {
-      indexDoc(writer, path, Files.getLastModifiedTime(path).toMillis());
+      indexDoc(writer, path, Files.getLastModifiedTime(path).toMillis(), fileExpression);
     }
   }
 
   /** Indexes a single document */
   
-  public void indexDoc(IndexWriter writer, Path file, long lastModified) throws IOException {
+  public void indexDoc(IndexWriter writer, Path file, long lastModified, String fileExpression) throws IOException {
     try (InputStream stream = Files.newInputStream(file)) {
 
       Field pathField = new StringField("path", file.toString(), Field.Store.YES);
@@ -154,6 +156,12 @@ public class IndexFiles {
       String filename = filenames[filenames.length - 1];
       //BufferedReader txtReader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
      
+      // test filename
+      //Pattern p = Pattern.compile(".log");
+      //Matcher m = p.matcher(filename);
+      //if (!m.matches()) { return; }
+      if (!filename.matches(fileExpression)) { return; }
+      
       logParser.getLogsFromFile(stream, pathField, file, filename, writer);
       
     }

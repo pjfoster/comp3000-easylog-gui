@@ -22,16 +22,24 @@ public class QueryCreator {
 	 * @param searchTerms
 	 * @return
 	 */
-	public Query createQuery(List<SearchTermDisplay> searchTerms) {
+	public Query createQuery(List<SearchTermDisplay> searchTerms, String searchField) {
 		BooleanQuery.Builder builder = new BooleanQuery.Builder();
 		
+		String field = null;
+		if (searchField.trim().toLowerCase().equals("logs")) {
+			field = "contents";
+		} else {
+			field = "filename";
+		}
+		
+		
 		if (searchTerms.size() == 1) {
-			return miniQuery(searchTerms.get(0));
+			return miniQuery(field, searchTerms.get(0));
 		}
 		
 		else if (searchTerms.size() == 2) {
-			Query q1 = miniQuery(searchTerms.get(0));
-			Query q2 = miniQuery(searchTerms.get(1));
+			Query q1 = miniQuery(field, searchTerms.get(0));
+			Query q2 = miniQuery(field, searchTerms.get(1));
 			
 			if (searchTerms.get(0).getButtonText().equals("OR"))  {
 				builder.add(q1, BooleanClause.Occur.SHOULD);
@@ -47,7 +55,7 @@ public class QueryCreator {
 			if (searchTerms.get(0).getButtonText().equals("OR") &&
 				searchTerms.get(1).getButtonText().equals("OR")) {
 				for (int i = 0; i < searchTerms.size(); i++) {
-					Query q = miniQuery(searchTerms.get(i));
+					Query q = miniQuery(field, searchTerms.get(i));
 					if (q == null) { break; }
 					builder.add(q, BooleanClause.Occur.SHOULD);
 				}
@@ -57,9 +65,9 @@ public class QueryCreator {
 				searchTerms.get(1).getButtonText().equals("OR")) {
 				BooleanQuery.Builder subClause = new BooleanQuery.Builder();
 				
-				Query q1 = miniQuery(searchTerms.get(0));
-				Query q2 = miniQuery(searchTerms.get(1));
-				Query q3 = miniQuery(searchTerms.get(2));
+				Query q1 = miniQuery(field, searchTerms.get(0));
+				Query q2 = miniQuery(field, searchTerms.get(1));
+				Query q3 = miniQuery(field, searchTerms.get(2));
 				
 				subClause.add(q2, BooleanClause.Occur.SHOULD);
 				subClause.add(q3, BooleanClause.Occur.SHOULD);
@@ -72,9 +80,9 @@ public class QueryCreator {
 			if (searchTerms.get(0).getButtonText().equals("OR") &&
 				searchTerms.get(1).getButtonText().equals("AND")) {
 				BooleanQuery.Builder subClause = new BooleanQuery.Builder();
-				Query q1 = miniQuery(searchTerms.get(0));
-				Query q2 = miniQuery(searchTerms.get(1));
-				Query q3 = miniQuery(searchTerms.get(2));
+				Query q1 = miniQuery(field, searchTerms.get(0));
+				Query q2 = miniQuery(field, searchTerms.get(1));
+				Query q3 = miniQuery(field, searchTerms.get(2));
 				
 				subClause.add(q1, BooleanClause.Occur.SHOULD);
 				subClause.add(q2, BooleanClause.Occur.SHOULD);
@@ -86,7 +94,7 @@ public class QueryCreator {
 			if (searchTerms.get(0).getButtonText().equals("AND") &&
 				searchTerms.get(1).getButtonText().equals("AND")) {
 				for (int i = 0; i < searchTerms.size(); i++) {
-					Query q = miniQuery(searchTerms.get(i));
+					Query q = miniQuery(field, searchTerms.get(i));
 					if (q == null) { break; }
 					builder.add(q, BooleanClause.Occur.MUST);
 				}
@@ -102,7 +110,7 @@ public class QueryCreator {
 	 * @param currDisplay
 	 * @return
 	 */
-	public Query miniQuery(SearchTermDisplay currDisplay) {
+	public Query miniQuery(String field, SearchTermDisplay currDisplay) {
 		
 		if (currDisplay.getText().trim().equals("")) {
 			return null;
@@ -112,18 +120,18 @@ public class QueryCreator {
 		Query q = null;
 		
 		if (currDisplay.getSearchType().equals("String")) {
-			builder.add(new Term("contents", currDisplay.getText()));
+			builder.add(new Term(field, currDisplay.getText()));
 			q = builder.build();
 			
 		} else if (currDisplay.getSearchType().equals("Regex")) {
-			q = new RegexpQuery(new Term("contents", currDisplay.getText()));
+			q = new RegexpQuery(new Term(field, currDisplay.getText()));
 			
 		} else if (currDisplay.getSearchType().equals("Substring")) {
 			String text = "*" + currDisplay.getText() + "*";
-			q = new WildcardQuery(new Term("contents", text));
+			q = new WildcardQuery(new Term(field, text));
 			
 		} else if (currDisplay.getSearchType().equals("Fuzzy")) {
-			q = new FuzzyQuery(new Term("contents", currDisplay.getText()));
+			q = new FuzzyQuery(new Term(field, currDisplay.getText()));
 		}
 		
 		return q;
