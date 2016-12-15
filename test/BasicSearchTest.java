@@ -119,7 +119,7 @@ public class BasicSearchTest {
 		assertEquals(allLogs.size(), 14);
 		
 		MockSearchDisplay dummyDisplay = new MockSearchDisplay();
-		dummyDisplay.text = "paur";
+		dummyDisplay.text = "paur"; // should match 'pair'
 		dummyDisplay.searchType = "Fuzzy";
 		
 		ArrayList<SearchTermDisplay> wrapper = new ArrayList<SearchTermDisplay>();
@@ -130,6 +130,31 @@ public class BasicSearchTest {
 		ObservableList<Document> results = controller.filterSearch(q);
 		
 		assertEquals(2, results.size());
+	}
+	
+	@Test
+	public void searchFilename() {
+		// set indexing details
+		controller.indexData = "src/test/testLogs/";
+		controller.indexPath = "/Users/PJF/Desktop/test_index2/";
+				
+		controller.createIndex();
+		
+		ObservableList<Document> allLogs = controller.allLogs();
+		assertEquals(allLogs.size(), 14);
+		
+		MockSearchDisplay dummyDisplay = new MockSearchDisplay();
+		dummyDisplay.text = "wifi"; // should match 'pair'
+		dummyDisplay.searchType = "Substring";
+		
+		ArrayList<SearchTermDisplay> wrapper = new ArrayList<SearchTermDisplay>();
+		wrapper.add(dummyDisplay);
+		
+		Query q = queryCreator.createQuery(wrapper, "filename");
+		
+		ObservableList<Document> results = controller.filterSearch(q);
+		
+		assertEquals(5, results.size());
 	}
 
 }
