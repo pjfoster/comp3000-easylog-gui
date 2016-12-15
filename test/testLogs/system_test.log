@@ -1,0 +1,9 @@
+Dec 10 15:37:13 Patricias-MacBook-Pro kernel[0]: **** [IOBluetoothHostControllerUSBTransport][ClearFeatureInterruptEndpointHalt] -- successfully posting another read for the mInt0InterruptPipe -- mInterruptPipeInOutstandingIOCount = 1 -- this = 0xf000
+Dec 10 15:37:16 Patricias-MacBook-Pro sudo[34636]:     root : TTY=unknown ; PWD=/ ; USER=root ; COMMAND=/usr/bin/defaults read /Library/Preferences/com.common.plist name
+Dec 10 15:37:16 Patricias-MacBook-Pro defaults[34637]: 
+	The domain/default pair of (/Library/Preferences/com.common.plist, name) does not exist
+Dec 10 15:37:16 Patricias-MacBook-Pro sudo[34638]:     root : TTY=unknown ; PWD=/ ; USER=root ; COMMAND=/usr/bin/defaults read /Library/Preferences/com.common.plist user_id
+Dec 10 15:37:16 Patricias-MacBook-Pro defaults[34639]: 
+	The domain/default pair of (/Library/Preferences/com.common.plist, user_id) does not exist
+Dec 10 15:37:16 Patricias-MacBook-Pro com.apple.xpc.launchd[1] (com.pref.net-preferences): Service only ran for 0 seconds. Pushing respawn out by 10 seconds.
+Dec 10 15:37:26 Patricias-MacBook-Pro sudo[34641]:     root : TTY=unknown ; PWD=/ ; USER=root ; COMMAND=/usr/bin/defaults read /Library/Preferences/com.common.plist name

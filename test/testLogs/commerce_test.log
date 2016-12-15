@@ -1,0 +1,10 @@
+Jan 31 22:47:54 Patricias-MacBook-Pro storeaccountd[503]: 
+	
+	
+	--------------------------------------------------------- Begin --
+	
+	   System Version 10.11.3 (Build 15D21)
+	   "storeaccountd" Version ? (?)
+	
+	-------------------------------------------------------------------
+Jan 31 22:47:54 Patricias-MacBook-Pro storeaccountd[503]: BagLoadOperation: Attempting to load bag (type=1) from https://init.itunes.apple.com/bag.xml?ix=5

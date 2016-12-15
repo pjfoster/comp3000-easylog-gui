@@ -17,6 +17,10 @@ public class SearchTermDisplay extends FlowPane {
 	private Button andOrButton;
 	private final SearchBar parent;
 	
+	public SearchTermDisplay() {
+		this.parent = null;
+	}
+	
 	public SearchTermDisplay(final SearchBar parent) {
 		this.parent = parent;
 		

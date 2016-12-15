@@ -1,0 +1,5 @@
+Dec 10 00:30:06 Patricias-MacBook-Pro newsyslog[6548]: logfile turned over
+Sat Dec 10 08:34:35.334 <kernel> Unexpected payload found for message 9, dataLen 0
+Sat Dec 10 08:34:35.357 <kernel> AirPort_Brcm43xx::syncPowerState: WWEN[disabled]
+Sat Dec 10 08:34:43.417 <airportd[59]> _bsd_80211_event_callback: Failed to get power setting from device : err -3900
+Sat Dec 10 08:34:43.417 

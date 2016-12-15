@@ -2,7 +2,7 @@ package lucene;
 
 import gui.SearchTermDisplay;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanClause;
@@ -22,7 +22,7 @@ public class QueryCreator {
 	 * @param searchTerms
 	 * @return
 	 */
-	public Query createQuery(List<SearchTermDisplay> searchTerms, String searchField) {
+	public Query createQuery(ArrayList<SearchTermDisplay> searchTerms, String searchField) {
 		BooleanQuery.Builder builder = new BooleanQuery.Builder();
 		
 		String field = null;

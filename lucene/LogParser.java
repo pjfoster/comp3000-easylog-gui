@@ -53,7 +53,20 @@ public class LogParser {
 	    		  }
 	    	  }
 	    	  // if line == null, we have reached the end of the log file
-	    	  else break;
+	    	  else {
+	    		  
+	    		  // create last documents
+	    		  if (currLog != null) {
+	    			  Document newLog = new Document();
+	    			  newLog.add(pathField);
+	    			  newLog.add(new StringField("filename", filename, Field.Store.YES));
+	    			  newLog.add(new TextField("contents", currLog, Field.Store.YES));
+	    			  IndexFiles.addDocToIndex(writer, newLog, file);
+	    			  counter++;
+    			  }
+	    		  
+	    		  break;
+	    	  }
 	    	  if (counter >= MAX_PER_FILE) break;  
 	      }
 	      //System.out.println("COUNT FOR " + file.toString() + ": " + counter);
@@ -64,7 +77,8 @@ public class LogParser {
 	public boolean isNewLog(String log, String filename) {
 		
 		// deal with known special cases
-		if (filename.equals("commerce.log") || filename.equals("install.log") || filename.equals("system.log")) {
+		if (filename.equals("commerce.log") || filename.equals("install.log") || filename.equals("system.log") ||
+			filename.equals("commerce_test.log") || filename.equals("system_test.log")) {
 			
 			if (log.startsWith("Jan") || log.startsWith("Feb") || log.startsWith("Mar") ||
 				log.startsWith("Apr") || log.startsWith("May") || log.startsWith("Jun") ||
@@ -75,6 +89,7 @@ public class LogParser {
 			
 			return false;
 		}
+		
 		
 		else if (filename.equals("fsck_hfs.log")) {
 			return true;
