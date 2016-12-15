@@ -32,11 +32,6 @@ public class IndexingTest {
 		controller.createIndex();
 		
 		ObservableList<Document> allLogs = controller.allLogs();
-		
-		for (Document l: allLogs) {
-			System.out.println("LOG: " + l.get("contents"));
-		}
-		
 		assertEquals(allLogs.size(), 14);
 	}
 	

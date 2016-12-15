@@ -39,6 +39,9 @@ public class BasicSearchTest {
 				
 		controller.createIndex();
 		
+		ObservableList<Document> allLogs = controller.allLogs();
+		assertEquals(allLogs.size(), 14);
+		
 		MockSearchDisplay dummyDisplay = new MockSearchDisplay();
 		dummyDisplay.text = "kernel";
 		dummyDisplay.searchType = "String";
@@ -46,27 +49,87 @@ public class BasicSearchTest {
 		ArrayList<SearchTermDisplay> wrapper = new ArrayList<SearchTermDisplay>();
 		wrapper.add(dummyDisplay);
 		
-		Query q = queryCreator.createQuery(wrapper, "contents");
+		Query q = queryCreator.createQuery(wrapper, "logs");
 		
 		ObservableList<Document> results = controller.filterSearch(q);
 		
-		assertEquals(2, results.size());
+		assertEquals(3, results.size());
 	
 	}
 	
 	@Test
 	public void regexSearchTest() {
-		fail("Not yet implemented");
+		// set indexing details
+		controller.indexData = "src/test/testLogs/";
+		controller.indexPath = "/Users/PJF/Desktop/test_index2/";
+				
+		controller.createIndex();
+		
+		ObservableList<Document> allLogs = controller.allLogs();
+		assertEquals(allLogs.size(), 14);
+		
+		MockSearchDisplay dummyDisplay = new MockSearchDisplay();
+		dummyDisplay.text = "[kp]ernel";
+		dummyDisplay.searchType = "Regex";
+		
+		ArrayList<SearchTermDisplay> wrapper = new ArrayList<SearchTermDisplay>();
+		wrapper.add(dummyDisplay);
+		
+		Query q = queryCreator.createQuery(wrapper, "logs");
+		
+		ObservableList<Document> results = controller.filterSearch(q);
+		
+		assertEquals(3, results.size());
 	}
 	
 	@Test
 	public void subStringSearchTest() {
-		fail("Not yet implemented");
+		// set indexing details
+		controller.indexData = "src/test/testLogs/";
+		controller.indexPath = "/Users/PJF/Desktop/test_index2/";
+				
+		controller.createIndex();
+		
+		ObservableList<Document> allLogs = controller.allLogs();
+		assertEquals(allLogs.size(), 14);
+		
+		MockSearchDisplay dummyDisplay = new MockSearchDisplay();
+		dummyDisplay.text = "store";
+		dummyDisplay.searchType = "Substring";
+		
+		ArrayList<SearchTermDisplay> wrapper = new ArrayList<SearchTermDisplay>();
+		wrapper.add(dummyDisplay);
+		
+		Query q = queryCreator.createQuery(wrapper, "logs");
+		
+		ObservableList<Document> results = controller.filterSearch(q);
+		
+		assertEquals(2, results.size());
 	}
 	
 	@Test
 	public void fuzzySearchTest() {
-		fail("Not yet implemented");
+		// set indexing details
+		controller.indexData = "src/test/testLogs/";
+		controller.indexPath = "/Users/PJF/Desktop/test_index2/";
+				
+		controller.createIndex();
+		
+		ObservableList<Document> allLogs = controller.allLogs();
+		assertEquals(allLogs.size(), 14);
+		
+		MockSearchDisplay dummyDisplay = new MockSearchDisplay();
+		dummyDisplay.text = "paur";
+		dummyDisplay.searchType = "Fuzzy";
+		
+		ArrayList<SearchTermDisplay> wrapper = new ArrayList<SearchTermDisplay>();
+		wrapper.add(dummyDisplay);
+		
+		Query q = queryCreator.createQuery(wrapper, "logs");
+		
+		ObservableList<Document> results = controller.filterSearch(q);
+		
+		assertEquals(2, results.size());
 	}
 
 }
